@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Robot Service Booking</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f4f4f4;
+padding:20px;
+}
+
+.container{
+max-width:700px;
+margin:auto;
+background:white;
+padding:25px;
+border-radius:10px;
+}
+
+h2{
+text-align:center;
+}
+
+input,select,textarea,button{
+width:100%;
+padding:10px;
+margin:10px 0;
+box-sizing:border-box;
+}
+
+button{
+background:#2196f3;
+color:white;
+border:none;
+cursor:pointer;
+}
+
+.amount{
+background:#e8f5e9;
+color:green;
+font-size:25px;
+padding:15px;
+text-align:center;
+}
+
+#gpaySection{
+display:none;
+text-align:center;
+}
+
+#debitDetails{
+display:none;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<h2>Robot Service Booking</h2>
+
+
+<form id="robotForm">
+
+
+<label>Name</label>
+<input type="text" required>
+
+
+<label>Age</label>
+<input type="number" required>
+
+
+<label>Gender</label>
+
+<select required>
+<option>Select</option>
+<option>Male</option>
+<option>Female</option>
+<option>Other</option>
+</select>
+
+
+<label>Address</label>
+
+<textarea required></textarea>
+
+
+<label>Email</label>
+<input type="email" required>
+
+
+<label>Phone</label>
+<input type="tel" required>
+
+
+
+<label>Select Robot</label>
+
+<select id="robot" onchange="showAmount()" required>
+
+<option value="">Select Robot</option>
+
+<option value="20000">
+Fashion Suggestion Robot
+</option>
+
+
+<option value="25000">
+Makeup Assistant Robot
+</option>
+
+
+<option value="20000">
+Shopping Assistant Robot
+</option>
+
+</select>
+
+
+
+<div class="amount">
+
+Amount : ₹
+<span id="amount">0</span>
+
+</div>
+
+
+
+<label>Payment Method</label>
+
+
+<select id="payment" onchange="showPaymentFields()" required>
+
+<option value="">
+Select Payment
+</option>
+
+<option value="cod">
+Cash On Delivery
+</option>
+
+<option value="debit">
+Debit Card
+</option>
+
+<option value="gpay">
+GPay
+</option>
+
+</select>
+
+
+
+
+<div id="debitDetails">
+
+
+<h3>Debit Card</h3>
+
+<input placeholder="Card Name">
+
+<input placeholder="Card Number">
+
+<input type="month">
+
+<input placeholder="CVV">
+
+
+</div>
+
+
+
+
+
+<div id="gpaySection">
+
+
+<h3>Scan QR Code</h3>
+
+
+<img id="qrImage" width="220">
+
+
+<p>
+
+Amount :
+₹<span id="gpayAmount">0</span>
+
+</p>
+
+
+<button type="button" onclick="showPin()">
+
+Continue
+
+</button>
+
+
+
+<div id="pinBox" style="display:none;">
+
+
+<input id="pin"
+maxlength="4"
+placeholder="Enter 4 Digit PIN">
+
+
+<button type="button" onclick="checkPin()">
+
+Pay
+
+</button>
+
+
+</div>
+
+
+
+<h1 id="success"
+style="display:none;color:green;">
+
+✅
+
+</h1>
+
+<h3 id="msg"></h3>
+
+
+</div>
+
+
+
+
+
+<button type="submit">
+
+Submit
+
+</button>
+
+
+</form>
+
+
+</div>
+
+
+
+
+<script>
+
+
+function showAmount(){
+
+let price =
+document.getElementById("robot").value;
+
+
+document.getElementById("amount")
+.innerText = price;
+
+}
+
+
+
+
+
+function showPaymentFields(){
+
+
+let payment =
+document.getElementById("payment").value;
+
+
+let debit =
+document.getElementById("debitDetails");
+
+
+let gpay =
+document.getElementById("gpaySection");
+
+
+
+if(payment=="debit"){
+
+
+debit.style.display="block";
+
+gpay.style.display="none";
+
+
+}
+
+
+
+else if(payment=="gpay"){
+
+
+debit.style.display="none";
+
+gpay.style.display="block";
+
+
+
+let robot =
+document.getElementById("robot");
+
+
+let amount =
+robot.value;
+
+
+
+document.getElementById("gpayAmount")
+.innerText=amount;
+
+
+
+let robotName = robot.options[robot.selectedIndex].text;
+
+let link =
+"https://devadharshinign.github.io/fashion-robot-payment/payment.html?robot=" +
+encodeURIComponent(robotName) +
+"&price=" + amount;
+
+document.getElementById("qrImage").src =
+"https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" +
+encodeURIComponent(link);
+
+
+}
+
+
+else{
+
+
+debit.style.display="none";
+
+gpay.style.display="none";
+
+
+}
+
+
+}
+
+
+
+
+
+function showPin(){
+
+
+document.getElementById("pinBox")
+.style.display="block";
+
+
+}
+
+
+
+
+
+function checkPin(){
+
+
+let pin =
+document.getElementById("pin").value;
+
+
+
+if(pin.length==4){
+
+
+document.getElementById("success")
+.style.display="block";
+
+
+document.getElementById("msg")
+.innerText="Payment Successful";
+
+
+}
+
+else{
+
+
+alert("Enter 4 digit PIN");
+
+}
+
+
+}
+
+
+
+
+
+
+document.getElementById("robotForm")
+.addEventListener("submit",function(e){
+
+
+e.preventDefault();
+
+
+alert("Form Submitted Successfully");
+
+
+});
+
+
+</script>
+
+
+</body>
+</html>
