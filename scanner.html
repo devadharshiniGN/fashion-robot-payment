@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Robot Payment Scanner</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#000;
+    color:white;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.box{
+    width:90%;
+    max-width:380px;
+    background:#080d0a;
+    border:2px solid #90EE90;
+    border-radius:15px;
+    padding:30px 20px;
+    text-align:center;
+    box-shadow:0 0 20px rgba(144,238,144,.3);
+}
+
+.icon{
+    font-size:55px;
+    margin-bottom:10px;
+}
+
+h1{
+    color:#90EE90;
+    margin-bottom:25px;
+}
+
+.robot{
+    font-size:23px;
+    font-weight:bold;
+    margin-bottom:15px;
+}
+
+.amount{
+    color:#90EE90;
+    font-size:30px;
+    font-weight:bold;
+    margin-bottom:25px;
+}
+
+.qr-box{
+    background:white;
+    width:190px;
+    height:190px;
+    margin:0 auto 20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#000;
+    font-size:14px;
+    border-radius:8px;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:8px;
+    background:#90EE90;
+    color:#000;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.success{
+    display:none;
+    margin-top:20px;
+    padding:18px;
+    border:1px solid #90EE90;
+    border-radius:10px;
+    color:#90EE90;
+    font-weight:bold;
+}
+
+.tick{
+    font-size:50px;
+    display:block;
+    margin-bottom:8px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+    <div class="icon">🤖</div>
+
+    <h1>Robot Payment</h1>
+
+    <div class="robot" id="robotName">
+        Robot
+    </div>
+
+    <div class="amount" id="robotPrice">
+        ₹0
+    </div>
+
+    <div class="qr-box">
+        📱 SCAN / PAYMENT
+    </div>
+
+    <button onclick="continuePayment()">
+        CONTINUE
+    </button>
+
+    <div class="success" id="success">
+        <span class="tick">✓</span>
+        Payment Successful
+    </div>
+
+</div>
+
+<script>
+
+const params = new URLSearchParams(window.location.search);
+
+const robot = params.get("robot") || "Robot";
+const price = params.get("price") || "0";
+
+document.getElementById("robotName").innerText = robot;
+
+document.getElementById("robotPrice").innerText =
+    "₹" + Number(price).toLocaleString("en-IN");
+
+function continuePayment(){
+
+    document.getElementById("success").style.display = "block";
+
+}
+
+</script>
+
+</body>
+</html>
